@@ -36,14 +36,31 @@ if(emp.isAdmin()){
     <tbody>
     <% for(int i = 0; i < list.size(); i++) {%>
       <tr>
-      <td><%= list.get(i).getEmpId() %></td>
-        <td><%= list.get(i).getFirstName() %></td>
-        <td><%= list.get(i).getLastName() %></td>
-       	<td><%= list.get(i).getSalary() %></td>
+      <td contenteditable="true"><%= list.get(i).getEmpId() %></td>
+        <td contenteditable="true"><%= list.get(i).getFirstName() %></td>
+        <td contenteditable="true"><%= list.get(i).getLastName() %></td>
+       	<td contenteditable="true"><%= list.get(i).getSalary() %></td>
         </tr>
         <%} %>
     </tbody>
   </table>
+   <!-- Form for adding a new employee -->
+    <h3>Add New Employee</h3>
+    <form action="addEmployee" method="post">
+        <div class="form-group">
+            <label for="newFirstName">First Name:</label>
+            <input type="text" class="form-control" id="newFirstName" name="newFirstName" required>
+        </div>
+        <div class="form-group">
+            <label for="newLastName">Last Name:</label>
+            <input type="text" class="form-control" id="newLastName" name="newLastName" required>
+        </div>
+        <div class="form-group">
+            <label for="newSalary">Salary:</label>
+            <input type="number" class="form-control" id="newSalary" name="newSalary" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Employee</button>
+    </form>
 </div>
 
 

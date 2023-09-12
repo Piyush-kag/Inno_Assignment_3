@@ -62,7 +62,7 @@ public class LoginCtl extends HttpServlet {
 			}
 			else
 			{
-				request.setAttribute("msg", "Invalid Credentialls");
+				request.setAttribute("msg", "Invalid Credentials");
 				rd=request.getRequestDispatcher("login.jsp");
 				rd.include(request, response);
 			}
