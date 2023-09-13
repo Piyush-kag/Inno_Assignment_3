@@ -1,9 +1,11 @@
+<%@ page import="service.employeeService" %>
+<%@ page import="entity.Employee" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
 <style>
 * {
   padding: 0;
@@ -239,20 +241,21 @@ a.ssolink {
     transform: translateX(0px);
   }
 } </style>
-<title>JSP Project</title>
- <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Employees</title>
 </head>
 <body>
-<%! String msg; %>
-<% msg = (String)request.getAttribute("msg"); 
-if(msg != null){
+<%! 
+    employeeService es = new employeeService();
+    List<Employee> empList = es.getEmployee();
+    
+    // Calculate the next available employee ID
+    int nextEmpId = empList.isEmpty() ? 100 : empList.get(empList.size()-1).getEmpId();
 %>
-<%= msg %>
-<%} %>
- <div class="login-root">
+<div class="login-root">
     <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
       <div class="loginbackground box-background--white padding-top--64">
         <div class="loginbackground-gridContainer">
@@ -288,16 +291,31 @@ if(msg != null){
       </div>
       <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
         <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-          <h1>Login Here</h1>
+          <h1><a href="http://blog.stackfindover.com/" rel="dofollow">Add Employee Here</a></h1>
         </div>
-        <div class="formbg-outer">
+ <div class="formbg-outer">
           <div class="formbg">
             <div class="formbg-inner padding-horizontal--48">
-              <span class="padding-bottom--15">Sign in to your account</span>
-              <form action="LoginCtl" method="post">
+              <span class="padding-bottom--15">Enter Employee Details</span>
+              <form action="EmpCtl" method="post">
+              <div class="field padding-bottom--24">
+                 <input type="text" id="empId" name="empId" value="<%= nextEmpId + 1 %>" readonly>
+                 </div>
                 <div class="field padding-bottom--24">
                   <label for="email">User Name</label>
                   <input type="text" name="username">
+                </div>
+                <div class="field padding-bottom--24">
+                  <label for="email">First Name</label>
+                  <input type="text" name="firstname">
+                </div>
+                <div class="field padding-bottom--24">
+                  <label for="email">Last Name</label>
+                  <input type="text" name="lastname">
+                </div>
+                <div class="field padding-bottom--24">
+                  <label for="email">Salary</label>
+                  <input type="text" name="salary">
                 </div>
                 <div class="field padding-bottom--24">
                   <div class="grid--50-50">
@@ -305,24 +323,23 @@ if(msg != null){
                   </div>
                   <input type="password" name="password">
                 </div>
+                 <div class="form-group" style="display: inline-block;">
+					<label for="isAdmin">Admin</label> <input type="radio"
+					class="form-control" id="isAdmin" name="isAdmin" value="true">
+					<label for="isAdmin">Normal User:</label> <input type="radio"
+					class="form-control" id="isAdmin" name="isAdmin" value="false">
+				 </div>
                 
                 <div class="field padding-bottom--24">
-                   <button type="submit" class="btn btn-default" name="operation" value="login">Login</button>
+                   <button type="submit" class="btn btn-default" name="operation" value="login">Click to Add Employee</button>
+
                 </div>
               </form>
             </div>
           </div>
-          <div class="footer-link padding-top--24">
-            <span>Don't have an account? <a href="">Sign up</a></span>
-            <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-              <span><a href="#">© Piyush Kag</a></span>
-              <span><a href="#">Contact</a></span>
-              <span><a href="#">Privacy & terms</a></span>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
+        </div>
+        </div>
+        </div>
 </body>
 </html>

@@ -1,33 +1,23 @@
 package Ctl;
-
+import service.employeeService;
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import entity.Employee;
-import service.employeeService;
 
 /**
- * Servlet implementation class LoginCtl
+ * Servlet implementation class userUpdateCtl
  */
-@WebServlet("/LoginCtl")
-public class LoginCtl extends HttpServlet {
+@WebServlet("/userUpdateCtl")
+public class userUpdateCtl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-	
-	employeeService es=new employeeService();
-	RequestDispatcher rd;
-	
-    public LoginCtl() {
+    public userUpdateCtl() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,30 +34,20 @@ public class LoginCtl extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String operation = request.getParameter("operation");
-		
-		String UserName = request.getParameter("username");
-		String Password = request.getParameter("password");
-		
-		if(operation.equals("login")) {
-			
-			Employee emp = es.login(UserName, Password);
-			
-			if(emp!=null) {
-				HttpSession session = request.getSession();
-				session.setAttribute("emp", emp);
-				response.sendRedirect("home.jsp");
-				
-			}
-			else
-			{
-				request.setAttribute("msg", "Invalid Credentials");
-				rd=request.getRequestDispatcher("login.jsp");
-				rd.include(request, response);
-			}
-		}
-		
-	}
+        int empId = Integer.parseInt(request.getParameter("empId"));
+        String username = request.getParameter("username");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+
+        // Update the user's data in your data source
+        employeeService es = new employeeService();
+        boolean success = es.updateUserData(empId, username, firstname, lastname);
+
+        if (success) {
+            response.sendRedirect("user.jsp"); // Redirect back to the userUpdate.jsp page
+        } else {
+            System.out.println("Updated data....");
+        }
+    }
 
 }

@@ -16,7 +16,7 @@ public void initiaizeEmployee() {
 	e1.setFirstName("piyush");
 	e1.setLastName("kag");
 	e1.setPassword("123");
-	e1.setUserName("piyush");
+	e1.setUserName("aaa");
 	e1.setSalary(100000);
 	employeeList.add(e1);
 	
@@ -40,4 +40,57 @@ public List<Employee> getEmployee(){
 	return employeeList;
 }
 
+public Employee add(int empId, String firstName, String lastName, String userName, String password, boolean admin, double Salary) {
+    Employee e=new Employee();
+    e.setAdmin(admin);
+    e.setEmpId(empId);
+    e.setFirstName(firstName);
+    e.setLastName(lastName);
+    e.setPassword(password);
+    e.setSalary(Salary);
+    e.setUserName(userName);
+    employeeList.add(e);
+    return e;
+}
+public Employee getEmployeeById(int empId) {
+Employee emp = employeeList.stream()
+.filter(e -> e.getEmpId() == empId)
+.findFirst()
+.orElse(null);
+return emp;
+}
+
+public boolean deleteDetails(int empId) {
+boolean check = employeeList.removeIf(emp -> emp.getEmpId() == empId && !emp.isAdmin());
+return check;
+}
+
+public static List<Employee> employees = new ArrayList<>();
+
+public boolean updateEmployee(Employee updatedEmployee) {
+    for (Employee emp : employeeList) {
+        if (emp.getEmpId() == updatedEmployee.getEmpId()) {
+            emp.setUserName(updatedEmployee.getUserName());
+            emp.setFirstName(updatedEmployee.getFirstName());
+            emp.setLastName(updatedEmployee.getLastName());
+            emp.setSalary(updatedEmployee.getSalary());
+            emp.setAdmin(updatedEmployee.isAdmin());
+            emp.setPassword(updatedEmployee.getPassword());
+            return true; // Successfully updated
+        }
+    }
+    return false; // Employee with the specified empId not found
+}
+
+public boolean updateUserData(int empId, String newUsername, String newFirstName, String newLastName) {
+    for (Employee emp : employeeList) {
+        if (emp.getEmpId() == empId) {
+            emp.setUserName(newUsername);
+            emp.setFirstName(newFirstName);
+            emp.setLastName(newLastName);
+            return true; // Successfully updated
+        }
+    }
+    return false; // User with the specified empId not found
+}
 }

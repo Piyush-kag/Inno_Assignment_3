@@ -6,23 +6,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+    function confirmDelete(empId) {
+        var confirmation = confirm("Are you sure you want to delete this employee?");
+
+        if (confirmation) {
+            window.location.href = "EmpDelCtl?EmpId=" + empId;
+        } else {
+            // User clicked "Cancel" in the confirmation dialog
+            // Do nothing or provide feedback to the user
+        }
+    }
+</script>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insert title here</title>
+<title>All Employees</title>
 </head>
 <body>
 <%! Employee emp; 
 %>
 <% emp = (Employee)session.getAttribute("emp");
-employeeService es = new employeeService();
 
+employeeService es = new employeeService();
 List<Employee> list = es.getEmployee();
+%>
+<%
 if(emp.isAdmin()){
 %>
 	<div class="container">
-  <h2>Basic Table</h2>
+  <h2>Employee Table</h2>
   <p>All Employee Data</p>            
   <table class="table">
     <thead>
@@ -31,67 +46,35 @@ if(emp.isAdmin()){
         <th>First Name</th>
         <th>Last Name</th>
         <th>Salary</th>
+        <th>Is Admin</th>
       </tr>
     </thead>
-    <tbody>
     <% for(int i = 0; i < list.size(); i++) {%>
       <tr>
-      <td contenteditable="true"><%= list.get(i).getEmpId() %></td>
-        <td contenteditable="true"><%= list.get(i).getFirstName() %></td>
-        <td contenteditable="true"><%= list.get(i).getLastName() %></td>
-       	<td contenteditable="true"><%= list.get(i).getSalary() %></td>
+      <td ><%= list.get(i).getEmpId() %></td>
+        <td ><%= list.get(i).getFirstName() %></td>
+        <td ><%= list.get(i).getLastName() %></td>
+       	<td ><%= list.get(i).getSalary() %></td>
+       	<td><%= list.get(i).isAdmin() %></td>
+       	<td><a class="btn btn-default" href="updateEmp.jsp?EmpId=<%= list.get(i).getEmpId() %>">Update Employee Details</a></td>
+  <%if(!list.get(i).isAdmin()){ %>
+  <td>
+    <a class="btn btn-default" href="javascript:void(0);" onclick="confirmDelete(<%= list.get(i).getEmpId() %>)">Delete</a>
+</td>
+
+<%} %>
         </tr>
         <%} %>
-    </tbody>
   </table>
-   <!-- Form for adding a new employee -->
-    <h3>Add New Employee</h3>
-    <form action="addEmployee" method="post">
-        <div class="form-group">
-            <label for="newFirstName">First Name:</label>
-            <input type="text" class="form-control" id="newFirstName" name="newFirstName" required>
-        </div>
-        <div class="form-group">
-            <label for="newLastName">Last Name:</label>
-            <input type="text" class="form-control" id="newLastName" name="newLastName" required>
-        </div>
-        <div class="form-group">
-            <label for="newSalary">Salary:</label>
-            <input type="number" class="form-control" id="newSalary" name="newSalary" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Employee</button>
-    </form>
-</div>
+  <center>
+  	<button  type="submit" style="align-content: center;" class="btn btn-default" name="operation" value="addEmp" ><a href="addEmp.jsp">Add Employee</a></button>
+  </center>
+  </div>
 
-
-<% } else {
+<% } else { response.sendRedirect("user.jsp");}
 %>
-
-<div class="container">
-  <h2>Basic Table</h2>
-  <p>All Employee Data</p>            
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Salary</th>
-      </tr>
- 	 </thead>
-      <% for(int i = 0; i < list.size(); i++) {%>
-      <tr><% if(!list.get(i).isAdmin()){ %>
-      <td><%= list.get(i).getEmpId() %></td>
-        <td><%= list.get(i).getFirstName() %></td>
-        <td><%= list.get(i).getLastName() %></td>
-       	<td><%= list.get(i).getSalary() %></td>
-        </tr>
-        <%} %>
-    </thead>
-    </tbody>
-  </table>
-</div>
-<% }
-      }%>
+<center>
+<button><a href="login.jsp">LogOut</a></button>
+</center>
 </body>
 </html>
