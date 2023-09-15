@@ -248,11 +248,13 @@ a.ssolink {
 <title>Add Employees</title>
 </head>
 <body>
-<%! 
+<%
+Employee e = (Employee)session.getAttribute("emp");
+if(e == null){
+response.sendRedirect("login.jsp");
+}
     employeeService es = new employeeService();
     List<Employee> empList = es.getEmployee();
-    
-    // Calculate the next available employee ID
     int nextEmpId = empList.isEmpty() ? 100 : empList.get(empList.size()-1).getEmpId();
 %>
 <div class="login-root">

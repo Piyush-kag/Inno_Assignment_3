@@ -36,35 +36,31 @@ public class LoginCtl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.sendRedirect("login.jsp");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String operation = request.getParameter("operation");
 		
+		String operation = request.getParameter("operation");
+		if(operation.equals("login")) {
 		String UserName = request.getParameter("username");
 		String Password = request.getParameter("password");
 		
-		if(operation.equals("login")) {
-			
 			Employee emp = es.login(UserName, Password);
 			
-			if(emp!=null) {
-				HttpSession session = request.getSession();
-				session.setAttribute("emp", emp);
-				response.sendRedirect("home.jsp");
-				
+			if (emp != null) {
+			    HttpSession session = request.getSession(); // Create a new session if it doesn't exist
+			    session.setAttribute("emp", emp); // Store user information in the session
+			    response.sendRedirect("home.jsp");
 			}
 			else
 			{
 				request.setAttribute("msg", "Invalid Credentials");
 				rd=request.getRequestDispatcher("login.jsp");
-				rd.include(request, response);
+				rd.forward(request, response);
 			}
 		}
 		

@@ -24,6 +24,21 @@ a {
   color: #5469d4;
   text-decoration: unset;
 }
+
+/* Styles for the top message */
+.alert-danger {
+  background-color: #f44336; /* Red background color */
+  color: white; /* Text color */
+  padding: 10px; /* Padding for the message */
+  text-align: center; /* Center the text horizontally */
+  position: fixed; /* Fixed position to appear on top of the content */
+  top: 0; /* Position it at the top of the viewport */
+  left: 0; /* Position it at the left of the viewport */
+  width: 100%; /* Full width of the viewport */
+  z-index: 1000; /* A high z-index to ensure it appears on top */
+  display: none; /* Initially hide the message */
+}
+
 .login-root {
     background: #fff;
     display: flex;
@@ -246,12 +261,11 @@ a.ssolink {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%! String msg; %>
-<% msg = (String)request.getAttribute("msg"); 
-if(msg != null){
-%>
-<%= msg %>
-<%} %>
+<%!String message; %>
+ <%message=(String)request.getAttribute("msg");
+ if(message!=null){ %>
+ <div class="alert alert-danger"><%=message %></div>
+ <% }%>
  <div class="login-root">
     <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
       <div class="loginbackground box-background--white padding-top--64">
@@ -311,18 +325,10 @@ if(msg != null){
                 </div>
               </form>
             </div>
-          </div>
-          <div class="footer-link padding-top--24">
-            <span>Don't have an account? <a href="">Sign up</a></span>
-            <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-              <span><a href="#">© Piyush Kag</a></span>
-              <span><a href="#">Contact</a></span>
-              <span><a href="#">Privacy & terms</a></span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </body>
 </html>

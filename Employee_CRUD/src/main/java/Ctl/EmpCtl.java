@@ -19,6 +19,14 @@ public class EmpCtl extends HttpServlet {
     RequestDispatcher rd;
     public EmpCtl() {
     }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); // Get the current session if it exists
+        if (session != null) {
+            session.invalidate(); // Invalidate (destroy) the session
+        }
+        response.sendRedirect("login.jsp");
+    }
     protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException{
 //        String operation = request.getParameter("operation");
         

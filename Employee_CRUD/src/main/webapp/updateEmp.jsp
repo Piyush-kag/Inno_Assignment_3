@@ -250,13 +250,14 @@ a.ssolink {
 <body>
 
 <%
-    
-    String empIdParam = request.getParameter("EmpId");
+String empIdParam = request.getParameter("EmpId");
+if (empIdParam != null) {
     int empId = Integer.parseInt(empIdParam);
     employeeService es = new employeeService();
     Employee emp = es.getEmployeeById(empId);
-%>
 
+    if (emp != null) {
+%>
 <div class="login-root">
     <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
       <div class="loginbackground box-background--white padding-top--64">
@@ -316,10 +317,17 @@ a.ssolink {
                     <label for="lastname">Last Name</label>
 						<input type="text" name="lastname" value="<%= emp.getLastName() %>">
                 </div>
+                 <% if (emp.isAdmin()) { %>
                 <div class="field padding-bottom--24">
                     <label for="salary">Salary</label>
 						<input type="text" name="salary" value="<%= emp.getSalary() %>" readonly>
                 </div>
+                <% } else { %>
+                <div class="field padding-bottom--24">
+                    <label for="salary">Salary</label>
+						<input type="text" name="salary" value="<%= emp.getSalary() %>">
+                </div>
+                <% } %>
                <% if (!emp.isAdmin()) { %>
 			    <div class="form-group" style="display: inline-block;">
 			        <label for="isAdmin">Role:</label>
@@ -347,9 +355,17 @@ a.ssolink {
         </div>
     </div>
 </div>
-
         </div>
         </div>
         </div>
+        
+<%
+    } else {
+        out.println("Employee not found for EmpId: " + empId);
+    }
+} else {
+    out.println("EmpId parameter is missing from the URL.");
+}
+%>
 </body>
 </html>

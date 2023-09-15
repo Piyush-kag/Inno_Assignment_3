@@ -27,33 +27,38 @@ public class UpdateEmp extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
 
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    int empId = Integer.parseInt(request.getParameter("empId"));
-	    String username = request.getParameter("username");
-	    String firstname = request.getParameter("firstname");
-	    String lastname = request.getParameter("lastname");
-	    double salary = Double.parseDouble(request.getParameter("salary"));
-	    boolean admin = Boolean.parseBoolean(request.getParameter("isAdmin"));
-	    String password = request.getParameter("password");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    try {
+	        int empId = Integer.parseInt(request.getParameter("empId"));
+	        String username = request.getParameter("username");
+	        String firstname = request.getParameter("firstname");
+	        String lastname = request.getParameter("lastname");
+	        double salary = Double.parseDouble(request.getParameter("salary"));
+	        boolean admin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+	        String password = request.getParameter("password");
 
-	    // Update the corresponding employee record in your data source
-	    employeeService es = new employeeService();
-	    Employee updatedEmployee = new Employee(empId, username, firstname, lastname, password, admin, salary);
-	    
-	    boolean success = es.updateEmployee(updatedEmployee);
+	        Employee updatedEmployee = new Employee(empId, firstname, lastname, username, password, admin, salary);
 
-	    if (success) {
-	        response.sendRedirect("home.jsp");
-	    } else {
-	        System.out.println("Can't Update Data");
+	        employeeService es = new employeeService();
+	        boolean success = es.updateEmployee(updatedEmployee);
+
+	        if (success) {
+	            response.sendRedirect("home.jsp"); 
+	        } else {
+	            response.getWriter().println("Failed to update data.");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        response.getWriter().println("Error: " + e.getMessage());
 	    }
 	}
+
 
 
 }
