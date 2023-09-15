@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class LogoutCtl
- */
 @WebServlet("/LogoutCtl")
 public class LogoutCtl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -29,9 +26,19 @@ public class LogoutCtl extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession(false); // Get the current session if it exists
             if (session != null) {
+            	boolean isAdmin=(boolean) session.getAttribute("isAdmin");
+            	if(isAdmin) {
+            		System.out.println("Admin session expired");
                 session.invalidate(); // Invalidate (destroy) the session
+                response.sendRedirect("login.jsp");
+            	}	
+            	else {
+            		System.out.println("User session expired");
+                    session.invalidate(); // Invalidate (destroy) the session
+                    response.sendRedirect("login.jsp");
+                	
+            	}
             }
-            response.sendRedirect("login.jsp");
         }
 
 	/**

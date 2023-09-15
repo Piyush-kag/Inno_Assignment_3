@@ -7,6 +7,32 @@
 <html>
 <head>
 <style>
+/* Styles for the container */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 50px; /* Adjust the top margin as needed */
+  height: 100vh; /* Set the container to take the full viewport height */
+}
+
+/* Styles for the logout button */
+.logoutButton {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect */
+.logoutButton:hover {
+  background-color: #0056b3;
+}
+
+
   /* Define styles for the container */
   .container {
     background-color: rgba(255, 255, 255, 0.8); /* Add transparency for a blur effect */
@@ -69,6 +95,10 @@
 </head>
 <body>
         <% 
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+	
         Employee e = (Employee)session.getAttribute("emp");
         if(e == null){
         response.sendRedirect("login.jsp");
@@ -76,8 +106,8 @@
         
         Employee emp = (Employee) session.getAttribute("emp");
            if (emp != null && !emp.isAdmin()) { %>
- <form action="LogoutCtl" method="get">
-    <button type="submit">Logout</button>
+           <form action="LogoutCtl" method="get">
+    <button class="logoutButton" type="submit">Logout</button>
 </form> 
 <form action="userUpdateCtl" method="post">
 <div class="container">
@@ -91,6 +121,7 @@
         <th><label for="username">UserName: <%= emp.getUserName() %></label></th>
         <th><label for="firstname">First Name: <%= emp.getFirstName() %></label></th>
 		<th><label for="lastname">Last Name: <%= emp.getLastName() %></label></th>
+		<th><label for="lastname">Salary: <%= emp.getSalary() %></label></th>
       </tr>
  	 </thead>
  	 <thead>
@@ -108,6 +139,7 @@
    	</thead>
    </tbody>
   </table>
+  
 </div>
 <% }
 %>

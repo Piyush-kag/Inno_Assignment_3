@@ -80,16 +80,23 @@
 <body>
 <%! Employee emp; 
 %>
-<% emp = (Employee)session.getAttribute("emp");
+<% 
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+
+emp = (Employee)session.getAttribute("emp");
 if(emp!=null){
 employeeService es = new employeeService();
 List<Employee> list = es.getEmployee();
 %>
 <%
 if(emp.isAdmin()){
+	HttpSession session1 = request.getSession(true);
+	session1.setAttribute("isAdmin", true);
 %>
 	<div class="container">
-  <h2>Admin Panel</h2>
+  <h2> Admin Panel </h2>
   <p>All Employee Details</p>      
   <form action="LogoutCtl" method="get">
     <button type="submit">Logout</button>
@@ -134,7 +141,10 @@ if(emp.isAdmin()){
   </center>
   </div>
 
-<% } else { response.sendRedirect("user.jsp");
+<% } else { 
+	HttpSession session1 = request.getSession(true);
+	session1.setAttribute("isAdmin", false);
+	response.sendRedirect("user.jsp");
 } } else { response.sendRedirect("login.jsp"); }%>
 </body>
 </html>

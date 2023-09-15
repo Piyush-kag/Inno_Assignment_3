@@ -259,13 +259,19 @@ a.ssolink {
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script>
+window.addEventListener('load', function() {
+  // Clear the invalid credentials message by selecting it by its ID and setting its innerHTML to an empty string
+  var invalidCredentialsMessage = document.getElementById('Invalid Credentails');
+  if (invalidCredentialsMessage) {
+    invalidCredentialsMessage.innerHTML = '';
+  }
+});
+</script>
+  
 </head>
 <body>
-<%!String message; %>
- <%message=(String)request.getAttribute("msg");
- if(message!=null){ %>
- <div class="alert alert-danger"><%=message %></div>
- <% }%>
+
  <div class="login-root">
     <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
       <div class="loginbackground box-background--white padding-top--64">
@@ -308,6 +314,13 @@ a.ssolink {
           <div class="formbg">
             <div class="formbg-inner padding-horizontal--48">
               <span class="padding-bottom--15">Sign in to your account</span>
+              <%!String message; %>
+ <%message=(String)request.getAttribute("msg");
+
+ if(message!=null){ 
+ %>
+ <div class="alert alert-warning" role="alert"><%=message %></div>
+ <% }%>
               <form action="LoginCtl" method="post">
                 <div class="field padding-bottom--24">
                   <label for="email">User Name</label>

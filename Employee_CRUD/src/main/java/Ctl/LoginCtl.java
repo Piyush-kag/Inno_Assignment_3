@@ -52,9 +52,15 @@ public class LoginCtl extends HttpServlet {
 			Employee emp = es.login(UserName, Password);
 			
 			if (emp != null) {
+				if(emp.isAdmin()) {
 			    HttpSession session = request.getSession(); // Create a new session if it doesn't exist
 			    session.setAttribute("emp", emp); // Store user information in the session
-			    response.sendRedirect("home.jsp");
+			    response.sendRedirect("home.jsp");}
+				else {
+					 HttpSession session = request.getSession(); // Create a new session if it doesn't exist
+					    session.setAttribute("emp", emp); // Store user information in the session
+					    response.sendRedirect("home.jsp");
+				}
 			}
 			else
 			{
