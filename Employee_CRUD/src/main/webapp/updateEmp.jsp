@@ -250,9 +250,16 @@ a.ssolink {
 <body>
 
 <%
+
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-response.setHeader("Pragma", "no-cache");
+response.setHeader("Pragma", "no-store");
 response.setDateHeader("Expires", 0);
+
+
+Employee e = (Employee)session.getAttribute("emp");
+if(e==null){
+	response.sendRedirect("login.jsp");
+}
 
 String empIdParam = request.getParameter("EmpId");
 

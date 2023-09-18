@@ -323,12 +323,12 @@ window.addEventListener('load', function() {
  <% }%>
               <form action="LoginCtl" method="post">
                 <div class="field padding-bottom--24">
-                  <label for="email">User Name</label>
+                  <label for="email" autocomplete="off">User Name</label>
                   <input type="text" name="username">
                 </div>
                 <div class="field padding-bottom--24">
                   <div class="grid--50-50">
-                    <label for="password">User Password</label>
+                    <label autocomplete="off" for="password">User Password</label>
                   </div>
                   <input type="password" name="password">
                 </div>
